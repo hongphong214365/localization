@@ -31,7 +31,8 @@
     "sampling/title": "Lấy Mẫu",
     "settings/title": "Cài Đặt",
     "toolUse/title": "Sử Dụng Công Cụ",
-    "promptTemplate/title": "Mẫu Lời Nhắc"
+    "promptTemplate/title": "Mẫu Lời Nhắc",
+    "customFields/title": "Custom Fields"
   },
 
   "llm.prediction.systemPrompt/title": "Prompt Hệ Thống",
@@ -219,7 +220,10 @@
     "legacy/description": "Cài đặt trước này là một cài đặt trước cũ. Nó bao gồm các trường sau hiện đã được xử lý tự động hoặc không còn áp dụng.",
     "button/publish": "Xuất Bản Lên Hub",
     "button/pushUpdate": "Đẩy Thay Đổi Lên Hub",
-    "button/export": "Xuất"
+    "button/export": "Xuất",
+    "button/noChangesToPush": "No changes to push",
+    "hubLabel": "Preset from the Hub by {{user}}",
+    "ownHubLabel": "Your preset from the Hub"
   },
 
   "customInputs": {
@@ -229,6 +233,7 @@
     "checkboxNumeric": {
       "off": "TẮT"
     },
+
     "llamaCacheQuantizationType": {
       "off": "TẮT"
     },
@@ -280,6 +285,10 @@
     "llamaAccelerationOffloadRatio": {
       "max": "TỐI ĐA",
       "off": "TẮT"
+    },
+    "gpuSplitStrategy": {
+      "evenly": "Đồng đều",
+      "favorMainGpu": "Ưu tiên GPU chính"
     },
     "llamaAccelerationSplitStrategy": {
       "evenly": "Đều",
@@ -408,7 +417,11 @@
       "publicSubtitle": "Cài đặt trước của bạn là <custom-bold>Công khai</custom-bold>. Những người khác có thể tải xuống và phân nhánh nó trên lmstudio.ai",
       "confirmShareButton": "Xuất Bản",
       "error": "Không thể xuất bản cài đặt trước",
-      "createFreeAccount": "Tạo tài khoản miễn phí trong Hub để xuất bản cài đặt trước"
+      "createFreeAccount": "Tạo tài khoản miễn phí trong Hub để xuất bản cài đặt trước",
+      "willBePrivate": "Only you will be able to see this preset",
+      "willBeOrgVisible": "This preset will be visible to everyone in the organization.",
+      "privateUsageReached": "Private preset number limit reached.",
+      "continueInBrowser": "Continue in Browser"
     },
     "update": {
       "title": "Đẩy Thay Đổi Lên Hub",
@@ -477,35 +490,166 @@
     },
     "inclusiveness": {
       "speculativeDecoding": "Bao gồm trong Cài Đặt Trước"
+    },
+    "saveChanges": "Save",
+    "saveChanges/description": "Save your changes to the preset.",
+    "saveChanges.manual": "New fields detected. You will be able to choose which changes to include in the preset.",
+    "saveChanges.manual.hold.0": "Hold",
+    "saveChanges.manual.hold.1": "to choose which changes to save to the preset.",
+    "saveChanges.saveAll.hold.0": "Hold",
+    "saveChanges.saveAll.hold.1": "to save all changes.",
+    "saveChanges.saveInPreset.hold.0": "Hold",
+    "saveChanges.saveInPreset.hold.1": "to only save changes to fields that are already included in the preset.",
+    "saveChanges/error": "Failed to save changes to the preset.",
+    "saveChanges.manual/description": "Choose which changes to include in the preset.",
+    "cannotSaveChangesNoChanges": "No changes to save.",
+    "contextMenuCopyIdentifier": "Copy Preset Identifier",
+    "contextMenuPullFromHub": "Pull Latest",
+    "resolve": {
+      "title": "Resolve conflicts...",
+      "tooltip": "Open a modal to resolve differences with the Hub version"
+    },
+    "loginToManage": {
+      "title": "Login to manage..."
+    },
+    "downloadFromHub": {
+      "title": "Download",
+      "downloading": "Downloading...",
+      "success": "Downloaded!",
+      "error": "Failed to download"
+    },
+    "push": {
+      "title": "Push changes",
+      "pushing": "Pushing...",
+      "success": "Pushed",
+      "tooltip": "Push your local changes to the remote version hosted on the Hub",
+      "error": "Failed to push"
+    },
+    "saveAsNewModal": {
+      "title": "Oops! Did not find the preset on Hub",
+      "confirmSaveAsNewDescription": "Do you want to publish this preset as a new one?",
+      "confirmButton": "Publish as New"
+    },
+    "pull": {
+      "title": "Pull Latest",
+      "error": "Failed to pull",
+      "contextMenuErrorMessage": "Failed to pull",
+      "success": "Pulled",
+      "pulling": "Pulling...",
+      "upToDate": "Up to date!",
+      "unsavedChangesModal": {
+        "title": "You have unsaved changes.",
+        "bodyContent": "Pulling from remote will overwrite your unsaved changes. Continue?",
+        "confirmButton": "Overwrite Unsaved Changes"
+      }
     }
   },
+
+  "llm.prediction.systemPrompt/openEditor": "Editor",
+  "llm.prediction.systemPrompt/closeEditor": "Close Editor",
+  "llm.prediction.systemPrompt/openedEditor": "Opened in Editor...",
+  "llm.prediction.systemPrompt/edit": "Edit System Prompt...",
+  "llm.prediction.systemPrompt/addInstructionsWithMore": "Add instructions...",
+  "llm.prediction.systemPrompt/addInstructions": "Add instructions",
+  "llm.prediction.reasoning.budgetTokens/title": "Reasoning Budget",
+  "llm.prediction.reasoning.budgetTokens/subTitle": "Token budget for thinking: off for unrestricted, 0 for immediate end, N > 0 for token budget",
+  "llm.load.promptTemplate/title": "Chat Template",
+  "llm.load.promptTemplate/subTitle": "The template used by engine protocol for chat, tools, reasoning, and multimodal formatting. Changing this requires reloading the model.",
+  "llm.load.mainGpu/title": "Main GPU",
+  "llm.load.mainGpu/subTitle": "The GPU to prioritize for model computation",
+  "llm.load.mainGpu/placeholder": "Select main GPU...",
+  "llm.load.splitStrategy/title": "Split Strategy",
+  "llm.load.splitStrategy/subTitle": "How to split model computation across GPUs",
+  "llm.load.splitStrategy/placeholder": "Select split strategy...",
+  "llm.load.offloadKVCacheToGpu/title": "Offload KV Cache to GPU Memory",
+  "llm.load.offloadKVCacheToGpu/subTitle": "Offload the KV cache to GPU memory. Improves performance but requires more GPU memory",
+  "llm.load.numParallelSessions/title": "Max Concurrent Predictions",
+  "llm.load.numParallelSessions/subTitle": "Maximum number of predictions the model can run at a given time. The speed of each individual prediction may decrease with concurrency, but each prediction will start faster and higher total throughput can be achieved",
+  "llm.load.useUnifiedKvCache/title": "Unified KV Cache",
+  "llm.load.useUnifiedKvCache/subTitle": "Controls whether concurrent predictions share a single KV cache, saving memory. Disabling this ensures each prediction can utilize the full context length, at the cost of using more memory",
+  "llm.load.llama.contextCheckpoints/title": "Context Checkpoints",
+  "llm.load.llama.contextCheckpoints/subTitle": "Maximum number of context checkpoints to keep per slot. Lower values reduce RAM usage for SWA/recurrent models. 0 disables checkpoints.",
+  "llm.load.llama.reasoningBudgetMessage/title": "Reasoning Budget Message",
+  "llm.load.llama.reasoningBudgetMessage/subTitle": "Message injected before the end-of-thinking tag when reasoning budget is exhausted (default: none)",
+  "load.gpuStrictVramCap/title": "Limit Model Offload to Dedicated GPU Memory",
+  "load.gpuStrictVramCap.customSubTitleOff": "OFF: Allow model weights to offload to shared memory if dedicated GPU memory is full",
+  "load.gpuStrictVramCap.customSubTitleOn": "ON: The system will limit offload of model weights to dedicated GPU memory and RAM only. Context may still use shared memory",
+  "load.gpuStrictVramCap.customGpuOffloadWarning": "Model offload limited to dedicated GPU memory. Actual number of offloaded layers may differ",
+  "load.allGpusDisabledWarning": "All GPUs are currently disabled. Enable at least one to offload",
+  "llm.load.numCpuExpertLayersRatio/title": "Number of layers for which to force MoE weights onto CPU",
+  "llm.load.numCpuExpertLayersRatio/subTitle": "Number of layers to force the experts into CPU. Saves VRAM and can be faster than partial GPU offload. Not recommended if the model fits entirely in VRAM.",
+  "llm.load.numCpuExpertLayersRatio/info": "Specifies the number of layers to force the expert into CPU. Leaves attention layers on GPU, saving VRAM while keeping inference fairly fast.",
+  "llm.load.llama.autoFit/title": "Automatic Optimize Based on Hardware",
+  "llm.load.llama.autoFit/subTitle": "Let llama.cpp choose context and GPU placement at load time based on available memory",
+  "llm.load.llama.physicalBatchSize/subTitle": "Maximum number of prompt tokens to process in one chunk. Larger values may improve performance, but can use more memory",
+  "llm.load.mlx.autoFit/title": "Automatic Context Sizing",
+  "llm.load.mlx.autoFit/subTitle": "Let the MLX runtime choose a safe context length at load time based on available memory",
+  "llm.load.yuzu.autoFit/title": "Automatic Context Sizing",
+  "llm.load.yuzu.autoFit/subTitle": "Let the runtime choose a safe context length at load time based on available memory",
+  "llm.load.mlx.diskCache/title": "Prompt Disk Cache",
+  "llm.load.mlx.diskCache/subTitle": "Reuse prompt states across requests by caching them on disk",
 
   "flashAttentionWarning": "Tăng Tốc Chú Ý là một tính năng thử nghiệm có thể gây ra sự cố với một số mô hình. Nếu bạn gặp sự cố, hãy thử tắt nó đi.",
   "llamaKvCacheQuantizationWarning": "Lượng Tử Hóa Bộ Đệm KV là một tính năng thử nghiệm có thể gây ra sự cố với một số mô hình. Tăng Tốc Chú Ý phải được bật để lượng tử hóa bộ đệm V. Nếu bạn gặp sự cố, hãy đặt lại về mặc định \"F16\".",
 
   "seedUncheckedHint": "Hạt Giống Ngẫu Nhiên",
+  "reasoningBudgetUncheckedHint": "Không hạn chế",
   "ropeFrequencyBaseUncheckedHint": "Tự động",
   "ropeFrequencyScaleUncheckedHint": "Tự động",
 
   "hardware": {
-    "advancedGpuSettings": "Cài Đặt GPU Nâng Cao",
-    "advancedGpuSettings.info": "Nếu bạn không chắc chắn, hãy để chúng ở giá trị mặc định",
-    "advancedGpuSettings.reset": "Đặt lại về mặc định",
-    "environmentVariables": {
-      "title": "Biến Môi Trường",
-      "description": "Các biến môi trường hoạt động trong suốt thời gian tồn tại của mô hình.",
-      "key.placeholder": "Chọn biến...",
-      "value.placeholder": "Giá trị"
+    "environmentVariables": "Biến môi trường",
+    "environmentVariables.info": "Nếu bạn không chắc chắn, hãy giữ các giá trị mặc định",
+    "environmentVariables.reset": "Đặt lại về mặc định",
+    "gpus.information": "Cấu hình các bộ xử lý đồ họa (GPU) được phát hiện trên máy tính của bạn.",
+    "gpuSettings": {
+      "editMaxCapacity": "Chỉnh sửa dung lượng tối đa",
+      "hideEditMaxCapacity": "Ẩn Chỉnh sửa Dung lượng tối đa",
+      "allOffWarning": "Tất cả GPU đều đã tắt hoặc bị vô hiệu hóa, hãy đảm bảo rằng có đủ tài nguyên GPU để cho phép tải mô hình.",
+      "split": {
+        "title": "Chiến lược",
+        "placeholder": "Chọn phân bổ bộ nhớ GPU",
+        "options": {
+          "generalDescription": "Cấu hình cách các mô hình sẽ được tải lên GPU của bạn.",
+          "evenly": {
+            "title": "Chia đều",
+            "description": "Phân bổ bộ nhớ đồng đều cho các GPU."
+          },
+          "priorityOrder": {
+            "title": "Thứ tự ưu tiên",
+            "description": "Kéo chuột để sắp xếp lại thứ tự ưu tiên. Hệ thống sẽ cố gắng phân bổ nhiều tài nguyên hơn cho các GPU được liệt kê đầu tiên."
+          },
+          "custom": {
+            "title": "Tùy chỉnh.",
+            "description": "Phân bổ bộ nhớ",
+            "maxAllocation": "Phân bổ tối đa"
+          }
+        }
+      },
+      "deviceId.info": "Mã định danh duy nhất cho thiết bị này",
+      "changesOnlyAffectNewlyLoadedModels": "Các thay đổi sẽ chỉ ảnh hưởng đến các mô hình được tải mới.",
+      "toggleGpu": "Bật/Tắt GPU"
+    }
+  },
+
+  "load.gpuSplitConfig/title": "Cấu hình phân tách GPU",
+  "envVars/title": "Thiết lập biến môi trường",
+  "envVars": {
+    "select": {
+      "placeholder": "Chọn một biến môi trường...",
+      "noOptions": "No more available",
+      "filter": {
+        "placeholder": "Lọc kết quả tìm kiếm",
+        "resultsFound_zero": "Không tìm thấy kết quả nào.",
+        "resultsFound_one": "Tìm thấy 1 kết quả",
+        "resultsFound_other": "{{count}} kết quả đã tìm thấy"
+      }
     },
-    "mainGpu": {
-      "title": "GPU Chính",
-      "description": "GPU được ưu tiên cho việc tính toán mô hình.",
-      "placeholder": "Chọn GPU chính..."
+    "inputValue": {
+      "placeholder": "Nhập một giá trị"
     },
-    "splitStrategy": {
-      "title": "Chiến Lược Chia Tách",
-      "description": "Cách chia tách tính toán mô hình trên các GPU.",
-      "placeholder": "Chọn chiến lược chia tách..."
+    "values": {
+      "title": "Giá trị hiện tại"
     }
   }
 }
